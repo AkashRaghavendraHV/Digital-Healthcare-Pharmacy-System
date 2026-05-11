@@ -4,7 +4,16 @@ A full-stack Java web application providing end-to-end digital healthcare servic
 
 > **Course:** UE23CS352B — Object Oriented Analysis & Design  
 > **Institution:** PES University
+---
 
+## 👥 Team Members
+
+| Name | USN |
+|------|-----|
+| **Akash Raghavendra** | PES1UG23CS043 |
+| **Akshay R** | PES1UG23CS049 |
+| **Amar S Nandi** | PES1UG23CS057 |
+| **Amogh Shetty** | PES1UG23CS060 |
 ---
 
 ## 📋 Table of Contents
@@ -397,19 +406,6 @@ After launching, users can register with one of the following roles:
 | `/admin/dashboard` | System stats & reports |
 | `/admin/users` | Manage user accounts |
 | `/admin/medicines` | Medicine catalog CRUD |
-
----
-
----
-
-## 👥 Team Members
-
-| Name | USN |
-|------|-----|
-| **Akash K** | PES1UG23CS043 |
-| **Akshay R** | PES1UG23CS049 |
-| **Amar S Nandi** | PES1UG23CS057 |
-| **Amogh Shetty** | PES1UG23CS060 |
 
 ---
 
