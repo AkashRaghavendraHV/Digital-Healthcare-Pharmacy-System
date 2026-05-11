@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('My Appointments - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Appointments Schedule</h2>
+        
+        <div class="card shadow-sm border-0">
+             <div class="card-body p-4">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Date & Time</th>
+                            <th>Status (Decorator Pattern)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="apt : ${appointments}">
+                            <td class="fw-bold"><i class="bi bi-person me-2 text-primary"></i><span th:text="${apt.patient.name}">John Doe</span></td>
+                            <td>
+                                <div th:text="${#temporals.format(apt.date, 'MMM dd, yyyy')}">Date</div>
+                                <small class="text-secondary" th:text="${apt.time}">10:00</small>
+                            </td>
+                            <td>
+                                <span class="badge px-3 py-2 rounded-pill"
+                                      th:classappend="${apt.status.name() == 'COMPLETED' ? 'bg-success' : (apt.status.name() == 'REQUESTED' ? 'bg-warning text-dark' : (apt.status.name() == 'CANCELLED' ? 'bg-danger' : 'bg-primary'))}"
+                                      th:text="${apt.status}">STATUS</span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2" th:if="${apt.status.name() == 'REQUESTED'}">
+                                    <form th:action="@{'/doctor/appointments/' + ${apt.appointmentId} + '/status'}" method="post">
+                                        <input type="hidden" name="status" value="CONFIRMED" />
+                                        <button class="btn btn-sm btn-success">Confirm</button>
+                                    </form>
+                                    <form th:action="@{'/doctor/appointments/' + ${apt.appointmentId} + '/status'}" method="post">
+                                        <input type="hidden" name="status" value="CANCELLED" />
+                                        <button class="btn btn-sm btn-outline-danger">Cancel</button>
+                                    </form>
+                                </div>
+                                
+                                <div th:if="${apt.status.name() == 'CONFIRMED'}">
+                                    <a th:href="@{'/doctor/appointments/' + ${apt.appointmentId} + '/prescribe'}" class="btn btn-sm btn-primary">Start Consultation & Prescribe</a>
+                                </div>
+                                <div th:if="${apt.status.name() == 'COMPLETED'}">
+                                    <span class="text-success small fw-bold"><i class="bi bi-check-circle me-1"></i>Consultation Finished</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(appointments)}">
+                            <td colspan="4" class="text-center py-5 text-secondary">No appointments scheduled.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

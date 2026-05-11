@@ -1,0 +1,27 @@
+# Build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Unnecessary project files
+*.pdf
+*.zip
+PRD.md
+progress.txt
+use_case_breakdown.md
+cred.txt
+
+# Logs
+*.log

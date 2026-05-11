@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Doctor Dashboard - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Doctor Dashboard</h2>
+        
+        <div class="card shadow-sm border-0 bg-primary bg-opacity-10 mb-4 rounded-4">
+            <div class="card-body p-5 text-center">
+                <i class="bi bi-heart-pulse display-1 text-primary mb-3 d-block"></i>
+                <h4 class="fw-bold">Manage Your Schedule</h4>
+                <p class="text-secondary col-md-6 mx-auto">Welcome back. You can view all your upcoming appointments, confirm patient requests, and issue digital prescriptions from your schedule portal.</p>
+                <a th:href="@{/doctor/appointments}" class="btn btn-primary btn-lg mt-3 px-5 rounded-pill shadow-sm">View Schedule</a>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

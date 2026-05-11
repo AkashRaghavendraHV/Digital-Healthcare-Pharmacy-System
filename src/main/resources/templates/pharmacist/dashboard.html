@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Pharmacist Dashboard - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Pharmacist Dashboard</h2>
+        
+        <div class="card shadow-sm border-0 bg-success bg-opacity-10 mb-4 rounded-4">
+            <div class="card-body p-5 text-center">
+                <i class="bi bi-box-seam display-1 text-success mb-3 d-block"></i>
+                <h4 class="fw-bold">Manage Pharmacy Queue</h4>
+                <p class="text-secondary col-md-6 mx-auto">Review incoming prescription orders, verify them, and update their fulfillment state (Verified, Dispatched, Delivered).</p>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm border-0">
+             <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0 px-4">
+                <h5 class="fw-bold mb-0">Order Queue</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Patient</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="order : ${orders}">
+                                <td th:text="${'ORD-' + order.orderId}">ORD-1</td>
+                                <td th:text="${order.patient.name}">John Doe</td>
+                                <td>
+                                    <span class="badge rounded-pill"
+                                          th:classappend="${order.status.name() == 'DELIVERED' ? 'bg-success' : (order.status.name() == 'REJECTED' ? 'bg-danger' : 'bg-warning text-dark')}"
+                                          th:text="${order.status}">PLACED</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2" th:if="${order.status.name() != 'DELIVERED' and order.status.name() != 'REJECTED'}">
+                                        <form th:if="${order.status.name() == 'PLACED'}" th:action="@{'/pharmacist/orders/' + ${order.orderId} + '/verify'}" method="post">
+                                            <button class="btn btn-sm btn-primary">Verify</button>
+                                        </form>
+                                        <form th:if="${order.status.name() == 'VERIFIED'}" th:action="@{'/pharmacist/orders/' + ${order.orderId} + '/dispatch'}" method="post">
+                                            <button class="btn btn-sm btn-info text-white">Dispatch</button>
+                                        </form>
+                                        <form th:if="${order.status.name() == 'DISPATCHED'}" th:action="@{'/pharmacist/orders/' + ${order.orderId} + '/deliver'}" method="post">
+                                            <button class="btn btn-sm btn-success">Mark Delivered</button>
+                                        </form>
+                                        <form th:if="${order.status.name() == 'PLACED'}" th:action="@{'/pharmacist/orders/' + ${order.orderId} + '/reject'}" method="post" class="d-flex gap-2">
+                                            <input type="text" name="reason" placeholder="Reject Reason" class="form-control form-control-sm" required>
+                                            <button class="btn btn-sm btn-danger">Reject</button>
+                                        </form>
+                                    </div>
+                                    <span th:if="${order.status.name() == 'REJECTED'}" class="text-danger small" th:text="${order.rejectionReason}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

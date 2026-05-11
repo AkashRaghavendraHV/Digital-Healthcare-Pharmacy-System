@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Checkout - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Checkout Order</h2>
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white pt-4 border-bottom-0">
+                        <h5 class="fw-bold mb-0">Prescription Overview</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="p-3 bg-light rounded-3 mb-4 border text-dark" style="border-color: var(--border-color) !important; background-color: var(--bg-color) !important;">
+                            <p class="mb-1"><strong>Doctor:</strong> <span th:text="${prescription.doctor.name}"></span></p>
+                            <p class="mb-0"><strong>Diagnosis:</strong> <span th:text="${prescription.diagnosis}"></span></p>
+                        </div>
+                        
+                        <div class="alert alert-info border-0 shadow-sm d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-3 fs-3 text-info"></i>
+                            <div>
+                                <strong>System Note:</strong> The platform reads the medicine requirement directly from the e-prescription object. You can review the generic catalog, but the prescribed items are automatically locked for checkout based on standard availability.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-primary bg-opacity-10 text-dark">
+                    <div class="card-body p-4" style="color: var(--text-color);">
+                        <h5 class="fw-bold mb-4">Payment Summary</h5>
+                        <form th:action="@{/patient/checkout}" method="post">
+                            <input type="hidden" name="prescriptionId" th:value="${prescription.prescriptionId}" />
+                            
+                            <div class="mb-4">
+                                <label class="form-label text-secondary fw-semibold">Estimated Total Amount ($)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 bg-white">$</span>
+                                    <input type="number" step="0.01" name="amount" class="form-control border-0 bg-white fw-bold fs-5" value="25.50" />
+                                </div>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <label class="form-label text-secondary fw-semibold">Select Payment Method</label>
+                                <select name="paymentMethod" class="form-select border-0 shadow-sm py-2">
+                                    <option value="UPI">UPI (Google Pay, PhonePe)</option>
+                                    <option value="CARD">Credit / Debit Card</option>
+                                    <option value="NETBANK">Net Banking</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow-sm rounded-3">Pay & Place Order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

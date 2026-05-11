@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('My Prescriptions - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">My Prescriptions</h2>
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Date Issued</th>
+                            <th>Doctor</th>
+                            <th>Diagnosis</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="rx : ${prescriptions}">
+                            <td th:text="${#temporals.format(rx.issuedAt, 'dd MMM yyyy')}">Date</td>
+                            <td th:text="${rx.doctor.name}">Dr. Name</td>
+                            <td th:text="${rx.diagnosis}">Diagnosis</td>
+                            <td>
+                                <span class="badge" th:classappend="${rx.fulfilled ? 'bg-success' : 'bg-warning text-dark'}"
+                                      th:text="${rx.fulfilled ? 'Fulfilled' : 'Unfulfilled'}">Status</span>
+                            </td>
+                            <td>
+                                <a th:if="${!rx.fulfilled}" th:href="@{'/patient/prescriptions/' + ${rx.prescriptionId}}" class="btn btn-sm btn-primary shadow-sm">Order Medicines</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(prescriptions)}">
+                            <td colspan="5" class="text-center py-4 text-secondary">You have no digital prescriptions on record.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('My Appointments - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">My Appointments</h2>
+            <a th:href="@{/patient/doctors}" class="btn btn-primary shadow-sm"><i class="bi bi-calendar-plus me-2"></i>Book New</a>
+        </div>
+        
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Specialization</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="apt : ${appointments}">
+                            <td class="fw-bold">
+                                <i class="bi bi-person-circle me-2 text-primary opacity-75"></i>
+                                <span th:text="${apt.doctor.name}">Dr. Name</span>
+                            </td>
+                            <td th:text="${apt.doctor.specialization}">Specialty</td>
+                            <td>
+                                <div th:text="${#temporals.format(apt.date, 'MMM dd, yyyy')}">Date</div>
+                                <small class="text-secondary" th:text="${apt.time}">10:00</small>
+                            </td>
+                            <td>
+                                <span class="badge rounded-pill px-3"
+                                      th:classappend="${apt.status.name() == 'CONFIRMED' ? 'bg-success' : (apt.status.name() == 'REQUESTED' ? 'bg-warning text-dark' : (apt.status.name() == 'CANCELLED' ? 'bg-danger' : 'bg-primary'))}"
+                                      th:text="${apt.status}">STATUS</span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(appointments)}">
+                            <td colspan="4" class="text-center py-5 text-secondary">
+                                <i class="bi bi-calendar-x fs-1 d-block mb-3 opacity-25"></i>
+                                You have no upcoming or past appointments.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

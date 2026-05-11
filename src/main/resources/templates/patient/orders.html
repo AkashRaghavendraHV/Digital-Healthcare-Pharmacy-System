@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('My Orders & Tracking - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Order Tracking</h2>
+        
+        <div class="card shadow-sm border-0">
+             <div class="card-body p-4">
+                <div class="alert alert-success border-0 mb-4 bg-opacity-25" style="background-color: rgba(25, 135, 84, 0.1) !important;"><i class="bi bi-gear-fill me-2 text-success"></i><strong>Architecture Note:</strong> Order state progression is governed strictly by the <strong>State Pattern</strong>, blocking illegal transitions (e.g., moving directly from Placed to Delivered).</div>
+                
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date Placed</th>
+                            <th>Total Amount</th>
+                            <th>Current State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td class="fw-bold">[[${'ORD-' + order.orderId}]]</td>
+                            <td th:text="${#temporals.format(order.placedAt, 'dd MMM yyyy')}">Date</td>
+                            <td>$<span th:text="${order.totalAmount}">0.00</span></td>
+                            <td>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm"
+                                      th:classappend="${order.status.name() == 'DELIVERED' ? 'bg-success' : (order.status.name() == 'REJECTED' ? 'bg-danger' : 'bg-primary')}"
+                                      th:text="${order.status}">STATUS</span>
+                                <small th:if="${order.status.name() == 'REJECTED'}" class="d-block mt-2 text-danger fw-bold"><i class="bi bi-exclamation-triangle me-1"></i><span th:text="${order.rejectionReason}"></span></small>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(orders)}">
+                            <td colspan="4" class="text-center py-5 text-secondary">
+                                <i class="bi bi-bag-x display-1 d-block mb-3 opacity-25"></i>
+                                You haven't placed any orders yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

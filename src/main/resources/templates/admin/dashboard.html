@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Admin Dashboard - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Admin system overview</h2>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm border-0 bg-primary text-white">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-people d-block display-4 mb-2 opacity-50"></i>
+                        <h6 class="text-uppercase mb-1">Total Users</h6>
+                        <h2 class="fw-bold mb-0" th:text="${totalUsers}">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm border-0 bg-success text-white">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-box-seam d-block display-4 mb-2 opacity-50"></i>
+                        <h6 class="text-uppercase mb-1">Total Orders</h6>
+                        <h2 class="fw-bold mb-0" th:text="${totalOrders}">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm border-0 bg-warning text-dark">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-calendar-check d-block display-4 mb-2 opacity-50"></i>
+                        <h6 class="text-uppercase mb-1">Appointments</h6>
+                        <h2 class="fw-bold mb-0" th:text="${totalAppointments}">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm border-0 bg-info text-white">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-cash-stack d-block display-4 mb-2 opacity-50"></i>
+                        <h6 class="text-uppercase mb-1">Revenue ($)</h6>
+                        <h2 class="fw-bold mb-0" th:text="${totalRevenue}">0.00</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3">Quick Actions</h4>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <a th:href="@{/admin/users}" class="btn btn-outline-primary w-100 py-5 rounded-4 shadow-sm" style="border-width: 2px;">
+                    <i class="bi bi-person-lines-fill d-block fs-1 mb-2"></i>
+                    <span class="fs-5 fw-bold">Manage All Users</span>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a th:href="@{/admin/medicines}" class="btn btn-outline-success w-100 py-5 rounded-4 shadow-sm" style="border-width: 2px;">
+                    <i class="bi bi-capsule d-block fs-1 mb-2"></i>
+                    <span class="fs-5 fw-bold">Update Medicine Catalog</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Register - Healthcare System')}">
+    <title>Register - Healthcare System</title>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card p-4 shadow-sm">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-primary">Create Account</h2>
+                        <p class="text-muted">Join our digital healthcare platform</p>
+                    </div>
+
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <form th:action="@{/register}" th:object="${registrationDto}" method="post">
+                        <!-- Common Fields -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" th:field="*{name}" class="form-control" required>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" th:field="*{email}" class="form-control" required>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                <input type="password" th:field="*{password}" class="form-control" required>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" th:field="*{phone}" class="form-control" required>
+                                <div class="text-danger small" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">I am a...</label>
+                            <select th:field="*{role}" class="form-select" id="roleSelect" onchange="toggleFields()" required>
+                                <option value="PATIENT">Patient</option>
+                                <option value="DOCTOR">Doctor</option>
+                                <option value="PHARMACIST">Pharmacist</option>
+                            </select>
+                        </div>
+
+                        <!-- Patient Fields -->
+                        <div id="patientFields">
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <textarea th:field="*{address}" class="form-control" rows="2"></textarea>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" th:field="*{age}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Gender</label>
+                                    <select th:field="*{gender}" class="form-select">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doctor Fields -->
+                        <div id="doctorFields" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label">Specialization</label>
+                                <input type="text" th:field="*{specialization}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Years of Experience</label>
+                                <input type="number" th:field="*{experience}" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Pharmacist Fields -->
+                        <div id="pharmacistFields" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label">Pharmacy Name</label>
+                                <input type="text" th:field="*{pharmacyName}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Pharmacy Address</label>
+                                <textarea th:field="*{pharmacyAddress}" class="form-control" rows="2"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">License Number</label>
+                                <input type="text" th:field="*{licenseNumber}" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-0 text-muted">Already have an account?</p>
+                        <a th:href="@{/login}" class="text-primary fw-600 text-decoration-none">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFields() {
+            const role = document.getElementById('roleSelect').value;
+            document.getElementById('patientFields').style.display = (role === 'PATIENT') ? 'block' : 'none';
+            document.getElementById('doctorFields').style.display = (role === 'DOCTOR') ? 'block' : 'none';
+            document.getElementById('pharmacistFields').style.display = (role === 'PHARMACIST') ? 'block' : 'none';
+        }
+        // Run on load to set initial state
+        window.onload = toggleFields;
+    </script>
+</body>
+</html>

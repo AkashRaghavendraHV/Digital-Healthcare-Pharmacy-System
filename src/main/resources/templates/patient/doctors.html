@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Find a Doctor - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">Book an Appointment</h2>
+        <div class="row g-4">
+            <div class="col-md-4" th:each="doctor : ${doctors}">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-person-circle display-4 text-primary bg-primary bg-opacity-10 rounded-circle p-2 me-3"></i>
+                            <div>
+                                <h5 class="fw-bold mb-0" th:text="${doctor.name}">Dr. Name</h5>
+                                <span class="badge bg-secondary" th:text="${doctor.specialization}">Specialty</span>
+                            </div>
+                        </div>
+                        <p class="mb-3 text-secondary"><i class="bi bi-briefcase me-2"></i>Experience: <span th:text="${doctor.experience}" class="fw-bold">5</span> years</p>
+                        
+                        <hr class="opacity-25" />
+                        
+                        <form th:action="@{/patient/appointments/book}" method="post">
+                            <input type="hidden" name="doctorId" th:value="${doctor.userId}" />
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label small text-secondary">Date</label>
+                                    <input type="date" name="date" class="form-control form-control-sm" required />
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small text-secondary">Time</label>
+                                    <input type="time" name="time" class="form-control form-control-sm" required />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary w-100">Book Slot</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 text-center" th:if="${#lists.isEmpty(doctors)}">
+                <p class="text-secondary py-5">No doctors available in the system yet.</p>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

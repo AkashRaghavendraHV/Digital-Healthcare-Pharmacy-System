@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Manage Users - HealthCare+')}">
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container pb-5">
+        <h2 class="fw-bold mb-4">User Management</h2>
+        
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.name}">John Doe</td>
+                                <td th:text="${user.email}">john@example.com</td>
+                                <td>
+                                    <span class="badge bg-secondary" th:text="${user.role}">PATIENT</span>
+                                </td>
+                                <td>
+                                    <span class="badge" th:classappend="${user.active ? 'bg-success' : 'bg-danger'}"
+                                          th:text="${user.active ? 'Active' : 'Inactive'}">Active</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary me-2">Edit</button>
+                                    <button class="btn btn-sm btn-outline-danger" th:if="${user.active}">Deactivate</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>
